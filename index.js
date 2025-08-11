@@ -21,7 +21,7 @@ const server = new Server(
 );
 
 // Define the EDS Block Analyser prompt
-const EDS_BLOCK_ANALYSER_PROMPT = `
+const TSD_GENERATOR_PROMPT = `
 
 **System Prompt – Technical Solution Document Generator for UI Bug Fixes**
 
@@ -124,7 +124,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       content: [
         {
           type: 'text',
-          text: EDS_BLOCK_ANALYSER_PROMPT,
+          text: TSD_GENERATOR_PROMPT,
         },
       ],
     };
