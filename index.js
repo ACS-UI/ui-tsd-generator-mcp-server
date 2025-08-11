@@ -103,8 +103,8 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
   return {
     tools: [
       {
-        name: 'eds_block_analyser',
-        description: 'Get a UI architect prompt for analyzing and estimating UI block conversion from Figma designs or web pages',
+        name: 'ui_tsd_generator',
+        description: 'Generate a Technical Solution Document for UI bug fixes based on Jira/GitHub issues and repository analysis',
         inputSchema: {
           type: 'object',
           properties: {},
@@ -119,7 +119,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name } = request.params;
 
-  if (name === 'eds_block_analyser') {
+  if (name === 'ui_tsd_generator') {
     return {
       content: [
         {
