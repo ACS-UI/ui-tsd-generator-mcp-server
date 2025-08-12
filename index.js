@@ -4,23 +4,44 @@ import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { 
   CallToolRequestSchema, 
-  ListToolsRequestSchema, 
+  ListToolsRequestSchema,
+  ListResourcesRequestSchema,
+  ReadResourceRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
+import { readFileSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+// Get current directory for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Read the document template
+const TEMPLATE_PATH = join(__dirname, 'ui_solution_document_template.md');
+let documentTemplate = '';
+
+try {
+  documentTemplate = readFileSync(TEMPLATE_PATH, 'utf8');
+} catch (error) {
+  console.error('Error reading template file:', error);
+  documentTemplate = '# UI Solution Document\n\nTemplate file could not be loaded.';
+}
 
 // Create the server
 const server = new Server(
   {
-    name: 'eds-block-analyser',
-    version: '1.0.0',
+    name: 'ui-solution-architect-mcp',
+    version: '1.0.1',
   },
   {
     capabilities: {
       tools: {},
+      resources: {},
     },
   }
 );
 
-// Define the EDS Block Analyser prompt
+// Define the TSD Generator prompt using the actual template
 const TSD_GENERATOR_PROMPT = `
 
 **System Prompt – Technical Solution Document Generator for UI Bug Fixes**
@@ -111,8 +132,50 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
           required: [],
         },
       },
+      {
+        name: 'get_document_template',
+        description: 'Get the UI Solution Document template as a markdown resource',
+        inputSchema: {
+          type: 'object',
+          properties: {},
+          required: [],
+        },
+      },
     ],
   };
+});
+
+// List available resources
+server.setRequestHandler(ListResourcesRequestSchema, async () => {
+  return {
+    resources: [
+      {
+        uri: 'mcp://ui-solution-architect-mcp/ui_solution_document_template.md',
+        name: 'UI Solution Document Template',
+        description: 'Markdown template for creating UI solution documents',
+        mimeType: 'text/markdown',
+      },
+    ],
+  };
+});
+
+// Handle resource read requests
+server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
+  const { uri } = request.params;
+  
+  if (uri === 'mcp://ui-solution-architect-mcp/ui_solution_document_template.md') {
+    return {
+      contents: [
+        {
+          uri: uri,
+          mimeType: 'text/markdown',
+          text: documentTemplate,
+        },
+      ],
+    };
+  }
+  
+  throw new Error(`Unknown resource: ${uri}`);
 });
 
 // Handle tool calls
@@ -130,6 +193,17 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     };
   }
 
+  if (name === 'get_document_template') {
+    return {
+      content: [
+        {
+          type: 'text',
+          text: `# UI Solution Document Template\n\nHere's the template for creating UI solution documents:\n\n\`\`\`markdown\n${documentTemplate}\n\`\`\`\n\nYou can also access this template as a resource using the MCP resource system.`,
+        },
+      ],
+    };
+  }
+
   throw new Error(`Unknown tool: ${name}`);
 });
 
@@ -137,7 +211,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error('EDS Block Analyser MCP server running on stdio');
+  console.error('UI Solution Architect MCP server running on stdio');
 }
 
 main().catch((error) => {

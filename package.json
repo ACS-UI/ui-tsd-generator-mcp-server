@@ -1,7 +1,7 @@
 {
-  "name": "ui-tsd-generator-mcp-server",
+  "name": "ui-solution-architect-mcp",
   "version": "1.0.1",
-  "description": "MCP server that generates Technical Solution Documents for UI bug fixes from Jira/GitHub issues and repo analysis.",
+  "description": "MCP server that provides UI Solution Document templates and generates Technical Solution Documents for UI bug fixes from Jira/GitHub issues and repo analysis.",
   "main": "index.js",
   "type": "module",
   "scripts": {
@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "ui-tsd-generator-mcp-server": "index.js"
+    "ui-solution-architect-mcp": "index.js"
   },
   "keywords": [
     "mcp",
@@ -24,7 +24,9 @@
     "frontend",
     "typescript",
     "react",
-    "redux"
+    "redux",
+    "template",
+    "markdown"
   ],
   "author": "ACS UI",
   "license": "MIT",

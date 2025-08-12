@@ -1,131 +1,111 @@
 
-# UI Technical Solution Document Generator MCP Server
+# UI Solution Architect MCP Server
 
-A Model Context Protocol (MCP) server that generates comprehensive Technical Solution Documents (TSD) for UI bug fixes based on Jira/GitHub issues and repository analysis.
-
-## What it does
-
-This MCP server provides a tool that returns a detailed system prompt for generating Technical Solution Documents to address UI bugs. The prompt guides AI assistants to analyze the problem, root cause, solution, implementation steps, and testing plan, with output structured for export to Word format.
+An MCP (Model Context Protocol) server that provides UI Solution Document templates and generates Technical Solution Documents for UI bug fixes from Jira/GitHub issues and repository analysis.
 
 ## Features
 
-- **Bug Analysis**: Parses Jira/GitHub issues and repository context
-- **Root Cause Identification**: Explains the most probable cause and contributing factors
-- **Solution Proposal**: Details required UI, state, service, and API changes
-- **Implementation Plan**: Step-by-step instructions and code snippets
-- **Testing Plan**: Unit, integration, accessibility, and cross-browser testing
-- **Risks & Dependencies**: Identifies blockers and dependencies
-- **Word Export**: Output is structured for easy export to `.docx` format
+### Tools
+- **`ui_tsd_generator`**: Generates comprehensive Technical Solution Documents for UI bug fixes
+- **`get_document_template`**: Retrieves the UI Solution Document template as markdown
+
+### Resources
+- **`ui_solution_document_template.md`**: Markdown template for creating UI solution documents
 
 ## Installation
 
-### Global Installation
 ```bash
-npm install -g ui-tsd-generator-mcp-server
-```
-
-### Local Installation
-```bash
-npm install ui-tsd-generator-mcp-server
+npm install
 ```
 
 ## Usage
 
-### With Claude Desktop
+### Start the MCP server
 
-Add this to your Claude Desktop configuration file:
+```bash
+npm start
+```
 
-**On macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
-**On Windows:** `%APPDATA%/Claude/claude_desktop_config.json`
+### MCP Configuration
+
+Add this to your MCP client configuration:
 
 ```json
 {
   "mcpServers": {
-    "ui-tsd-generator": {
-      "command": "npx",
-      "args": ["ui-tsd-generator-mcp-server"]
+    "ui-solution-architect": {
+      "command": "node",
+      "args": ["/path/to/ui-solution-architect-mcp/index.js"],
+      "env": {}
     }
   }
 }
 ```
 
-### With MCP Client
+## API
 
-```javascript
-import { Client } from '@modelcontextprotocol/sdk/client/index.js';
-import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
+### Tools
 
-const transport = new StdioClientTransport({
-  command: 'npx',
-  args: ['ui-tsd-generator-mcp-server']
-});
+#### ui_tsd_generator
+Generates a comprehensive Technical Solution Document for UI bug fixes.
 
-const client = new Client({
-  name: 'my-client',
-  version: '1.0.0'
-}, {
-  capabilities: {}
-});
-
-await client.connect(transport);
-
-// Use the tool
-const result = await client.callTool({
-  name: 'ui_tsd_generator'
-});
-
-console.log(result.content[0].text);
+**Input Schema:**
+```json
+{}
 ```
 
-## Available Tools
+**Output:** System prompt with instructions for generating TSDs.
 
-### `ui_tsd_generator`
-- **Description:** Generate a Technical Solution Document for UI bug fixes based on Jira/GitHub issues and repository analysis
-- **Parameters:** None
-- **Returns:** A comprehensive system prompt for generating a UI Technical Solution Document
+#### get_document_template
+Retrieves the UI Solution Document template.
 
-## Output Format
+**Input Schema:**
+```json
+{}
+```
 
-The prompt guides the generation of a Word document (`.docx`) with:
-- Cover page (Title, Bug ID, Date, Author)
-- Table of Contents
-- Structured sections: Problem Statement, Root Cause, Solution, Implementation, Testing, Risks
+**Output:** Markdown template content.
+
+### Resources
+
+#### ui_solution_document_template.md
+- **URI:** `mcp://ui-solution-architect-mcp/ui_solution_document_template.md`
+- **MIME Type:** `text/markdown`
+- **Description:** Markdown template for creating UI solution documents
+
+## Template Structure
+
+The UI Solution Document template includes:
+
+1. **Summary** - Project details and impact assessment
+2. **Background/Problem Statement** - Issue description and current behavior
+3. **Technical Analysis** - UI, backend, and AEM layer analysis
+4. **Proposed Solution** - Step-by-step approach with architecture flow
+5. **Architecture & Sequence Flow** - Diagrams and flow descriptions
+6. **Impact Analysis** - Affected modules and environments
+7. **Testing Strategy** - Unit, integration, and UAT testing plans
+8. **Rollout & Deployment Plan** - Feature flags and deployment order
+9. **Risks & Mitigation** - Risk identification and mitigation strategies
+10. **References** - Jira tickets, API docs, and related links
 
 ## Development
 
-### Clone and Setup
-```bash
-git clone https://github.com/ACS-UI/ui-tsd-generator-mcp-server.git
-cd ui-tsd-generator-mcp-server
-npm install
-```
-
-### Run Locally
-```bash
-npm start
-```
-
-### Test with MCP Inspector
-```bash
-npx @modelcontextprotocol/inspector npx ui-tsd-generator-mcp-server
-```
-
-## Requirements
-
+### Prerequisites
 - Node.js >= 18.0.0
-- @modelcontextprotocol/sdk ^0.4.0
+- npm
+
+### Dependencies
+- `@modelcontextprotocol/sdk`: MCP SDK for server implementation
+
+### File Structure
+```
+ui-solution-architect-mcp/
+├── index.js                           # Main MCP server implementation
+├── package.json                       # Project configuration
+├── README.md                          # This file
+└── ui_solution_document_template.md   # Document template
+```
 
 ## License
 
 MIT
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## Support
-
-If you encounter any issues, please file them on the [GitHub repository](https://github.com/ACS-UI/ui-tsd-generator-mcp-server/issues).
