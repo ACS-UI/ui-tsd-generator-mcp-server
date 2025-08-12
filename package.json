@@ -1,6 +1,6 @@
 {
   "name": "ui-solution-architect-mcp",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "MCP server that provides UI Solution Document templates and generates Technical Solution Documents for UI bug fixes from Jira/GitHub issues and repo analysis.",
   "main": "index.js",
   "type": "module",
