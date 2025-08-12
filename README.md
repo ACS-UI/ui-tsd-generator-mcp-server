@@ -6,7 +6,7 @@ An MCP (Model Context Protocol) server that provides UI Solution Document templa
 ## Features
 
 ### Tools
-- **`ui_tsd_generator`**: Generates comprehensive Technical Solution Documents for UI bug fixes
+- **`get_ui_solution_doc_system_prompt`**: Generates comprehensive Technical Solution Documents for UI bug fixes
 - **`get_document_template`**: Retrieves the UI Solution Document template as markdown
 
 ### Resources
@@ -46,7 +46,7 @@ Add this to your MCP client configuration:
 
 ### Tools
 
-#### ui_tsd_generator
+#### get_ui_solution_doc_system_prompt
 Generates a comprehensive Technical Solution Document for UI bug fixes.
 
 **Input Schema:**

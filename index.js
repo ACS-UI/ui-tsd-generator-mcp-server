@@ -124,7 +124,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
   return {
     tools: [
       {
-        name: 'ui_tsd_generator',
+        name: 'get_ui_solution_doc_system_prompt',
         description: 'Generate a Technical Solution Document for UI bug fixes based on Jira/GitHub issues and repository analysis',
         inputSchema: {
           type: 'object',
@@ -182,7 +182,7 @@ server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   const { name } = request.params;
 
-  if (name === 'ui_tsd_generator') {
+  if (name === 'get_ui_solution_doc_system_prompt') {
     return {
       content: [
         {

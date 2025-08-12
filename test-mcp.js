@@ -51,10 +51,10 @@ async function testMCPServer() {
     });
     console.log('');
 
-    // Test 3: Test ui_tsd_generator tool
-    console.log('📝 Testing ui_tsd_generator tool...');
+    // Test 3: Test get_ui_solution_doc_system_prompt tool
+    console.log('📝 Testing get_ui_solution_doc_system_prompt tool...');
     const tsdResult = await client.callTool({
-      name: 'ui_tsd_generator'
+      name: 'get_ui_solution_doc_system_prompt'
     });
     console.log(`✅ Tool returned ${tsdResult.content.length} content items`);
     console.log(`First 200 chars: ${tsdResult.content[0].text.substring(0, 200)}...\n`);
