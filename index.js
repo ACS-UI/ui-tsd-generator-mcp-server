@@ -31,7 +31,7 @@ try {
 const server = new Server(
   {
     name: 'ui-solution-architect-mcp',
-    version: '1.0.1',
+    version: '1.1.0',
   },
   {
     capabilities: {
